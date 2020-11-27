@@ -23,7 +23,7 @@ function handleConnection() {
 }
 
 handleConnection();
-
+//list with all users
 function list(tabla) {
   return new Promise((resolve, reject) => {
     client.query(`SELECT * FROM ${tabla}`, (err, data) => {
@@ -35,7 +35,7 @@ function list(tabla) {
     });
   });
 }
-
+//find an user by id
 function get(tabla, id) {
   return new Promise((resolve, reject) => {
     client.query(
@@ -45,7 +45,68 @@ function get(tabla, id) {
           return reject(err);
         } else {
           resolve(data);
-          console.log(id);
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+//insert nuw users
+function insertUsers(
+  sexual_preference,
+  genre,
+  email,
+  password,
+  name,
+  lastname
+  // dateBirth
+) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `INSERT INTO users (id_sexual_preference,id_genre,email,password,name,lastname) VALUES  (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}')`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+//delete user
+function deleteUser(tabla, id) {
+  return new Promise((resolve, reject) => {
+    client.query(`DELETE FROM ${tabla} WHERE id_user = ${id}`, (err, data) => {
+      if (err) {
+        return reject(err);
+      } else {
+        resolve(data);
+        // console.log(id);
+      }
+    });
+  });
+}
+
+//insert nuw users
+function updateUsers(
+  id,
+  sexual_preference,
+  genre,
+  email,
+  password,
+  name,
+  lastname
+  // dateBirth
+) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `UPDATE users SET(id_sexual_preference,id_genre,email,password,name,lastname) = (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}') WHERE id_user = ${id}`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
         }
       }
     );
@@ -55,4 +116,7 @@ function get(tabla, id) {
 module.exports = {
   list,
   get,
+  insertUsers,
+  deleteUser,
+  updateUsers,
 };
