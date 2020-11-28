@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const config = require("../config.js");
 const user = require("./components/user/network");
+const imageUser = require("./components/images/network");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -9,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Routes
 
 app.use("/api/user", user);
+app.use("/api/image", imageUser);
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(

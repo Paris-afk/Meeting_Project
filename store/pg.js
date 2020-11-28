@@ -1,7 +1,7 @@
 const { Pool, Client, pg, Connection } = require("pg");
 
 const config = require("../config");
-
+//data base settings
 const dbconf = {
   user: config.pg.user,
   host: config.pg.host,
@@ -11,6 +11,8 @@ const dbconf = {
   ssl: { rejectUnauthorized: false },
 };
 const client = new Client(dbconf);
+
+//data base connection
 function handleConnection() {
   client.connect((err) => {
     if (err) {
@@ -21,8 +23,8 @@ function handleConnection() {
     }
   });
 }
-
 handleConnection();
+
 //list with all users
 function list(tabla) {
   return new Promise((resolve, reject) => {
@@ -35,6 +37,7 @@ function list(tabla) {
     });
   });
 }
+
 //find an user by id
 function get(tabla, id) {
   return new Promise((resolve, reject) => {
@@ -51,19 +54,20 @@ function get(tabla, id) {
     );
   });
 }
-//insert nuw users
+//insert new users
 function insertUsers(
   sexual_preference,
   genre,
   email,
   password,
   name,
-  lastname
-  // dateBirth
+  lastname,
+  birthDate,
+  reports
 ) {
   return new Promise((resolve, reject) => {
     client.query(
-      `INSERT INTO users (id_sexual_preference,id_genre,email,password,name,lastname) VALUES  (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}')`,
+      `INSERT INTO users (id_sexual_preference,id_genre,email,password,name,lastname,date_birth,n_report) VALUES  (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}','${birthDate}','${reports}')`,
       (err, data) => {
         if (err) {
           return reject(err);
@@ -88,7 +92,7 @@ function deleteUser(tabla, id) {
   });
 }
 
-//insert nuw users
+//update users
 function updateUsers(
   id,
   sexual_preference,
@@ -96,12 +100,30 @@ function updateUsers(
   email,
   password,
   name,
-  lastname
-  // dateBirth
+  lastname,
+  dateBirth
 ) {
   return new Promise((resolve, reject) => {
     client.query(
-      `UPDATE users SET(id_sexual_preference,id_genre,email,password,name,lastname) = (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}') WHERE id_user = ${id}`,
+      `UPDATE users SET(id_sexual_preference,id_genre,email,password,name,lastname,date_birth) = (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}','${dateBirth}') WHERE id_user = ${id}`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+//**************** IMAGES */
+
+//upload profile picture
+function uploadProfilePicture(TABLA, id, image) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `UPDATE ${TABLA}  SET profile_picture = '${image}' WHERE id_user = ${id}`,
       (err, data) => {
         if (err) {
           return reject(err);
@@ -119,4 +141,5 @@ module.exports = {
   insertUsers,
   deleteUser,
   updateUsers,
+  uploadProfilePicture,
 };

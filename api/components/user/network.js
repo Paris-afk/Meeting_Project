@@ -32,7 +32,9 @@ router.post("/", async function (req, res) {
       req.body.email,
       req.body.password,
       req.body.name,
-      req.body.lastname
+      req.body.lastname,
+      req.body.birthDate,
+      req.body.reports
     );
 
     response.success(req, res, lista, 200);
@@ -61,7 +63,8 @@ router.put("/", async function (req, res) {
       req.body.email,
       req.body.password,
       req.body.name,
-      req.body.lastname
+      req.body.lastname,
+      req.body.birthDate
     );
 
     response.success(req, res, lista, 200);

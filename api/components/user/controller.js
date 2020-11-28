@@ -25,7 +25,9 @@ module.exports = function (injectedStore) {
     email,
     password,
     name,
-    lastname
+    lastname,
+    birthDate,
+    reports
   ) {
     return store.insertUsers(
       sexual_preference,
@@ -33,7 +35,9 @@ module.exports = function (injectedStore) {
       email,
       password,
       name,
-      lastname
+      lastname,
+      birthDate,
+      reports
     );
   }
 
@@ -44,7 +48,8 @@ module.exports = function (injectedStore) {
     email,
     password,
     name,
-    lastname
+    lastname,
+    dateBirth
   ) {
     return store.updateUsers(
       id,
@@ -53,7 +58,8 @@ module.exports = function (injectedStore) {
       email,
       password,
       name,
-      lastname
+      lastname,
+      dateBirth
     );
   }
 
