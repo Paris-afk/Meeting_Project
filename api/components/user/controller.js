@@ -26,8 +26,7 @@ module.exports = function (injectedStore) {
     password,
     name,
     lastname,
-    birthDate,
-    reports
+    birthDate
   ) {
     return store.insertUsers(
       sexual_preference,
@@ -36,8 +35,7 @@ module.exports = function (injectedStore) {
       password,
       name,
       lastname,
-      birthDate,
-      reports
+      birthDate
     );
   }
 

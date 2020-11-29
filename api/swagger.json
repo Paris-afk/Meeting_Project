@@ -1,0 +1,263 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Created by Paris Lopez",
+    "version": "1.0.0",
+    "title": "Documentition for dating app",
+    "contact": {
+      "email": "paris.obed@hotmail.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "image",
+      "description": "Operations about user images"
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/user/": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create user",
+        "description": "Create an user without profile image",
+        "operationId": "createUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "get": {
+        "tags": ["user"],
+        "summary": "Get all users",
+        "description": "Create an user without profile image",
+        "operationId": "getAllUsers",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": ["user"],
+        "summary": "Modify user data except images",
+        "description": "Modify un user, is necessary send all user data except images , necessary send id, not in header, send id in body",
+        "operationId": "ModifeUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/id": {
+      "get": {
+        "tags": ["user"],
+        "summary": "get User by Id",
+        "description": "Get a specific user sending his id",
+        "operationId": "getUserById",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["user"],
+        "summary": "Delete an user using his id",
+        "description": "Delete an user using his id",
+        "operationId": "DeleteUserByID",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/image/": {
+      "patch": {
+        "tags": ["image"],
+        "summary": "Post profile image or change it",
+        "description": "Post profile image sending id of user and image file",
+        "operationId": "PostprofileImage",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/image/wall/": {
+      "post": {
+        "tags": ["image"],
+        "summary": "Post Wall images, not profil image",
+        "description": "Post  images in wall sending id of user and image file",
+        "operationId": "PostUsersImages",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/image/id": {
+      "get": {
+        "tags": ["image"],
+        "summary": "Get all wall images from an user",
+        "description": "Get all images in wall sending id of user",
+        "operationId": "WallImages",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/profile/id": {
+      "get": {
+        "tags": ["image"],
+        "summary": "Get profile image using user id",
+        "description": "Get profile image using user id",
+        "operationId": "ProfPicture",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "sexual_preference": {
+          "type": "integer"
+        },
+        "genre": {
+          "type": "integer"
+        },
+        "birthDate": {
+          "type": "string"
+        }
+      }
+    },
+    "Image": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "picture": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

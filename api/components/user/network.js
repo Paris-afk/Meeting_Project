@@ -33,8 +33,7 @@ router.post("/", async function (req, res) {
       req.body.password,
       req.body.name,
       req.body.lastname,
-      req.body.birthDate,
-      req.body.reports
+      req.body.birthDate
     );
 
     response.success(req, res, lista, 200);

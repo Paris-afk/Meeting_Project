@@ -36,7 +36,8 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-router.post("/", upload.single("picture"), async function (req, res) {
+//upload or change profile image
+router.patch("/", upload.single("picture"), async function (req, res) {
   // console.log(req.body.id);
   // console.log(req.file);
   // console.log(__dirname);
@@ -49,6 +50,36 @@ router.post("/", upload.single("picture"), async function (req, res) {
     response.success(req, res, lista, 200);
   } catch (error) {
     response.success(req, res, error.message, 500);
+  }
+});
+
+//upload image but not profile image
+router.post("/wall", upload.single("picture"), async function (req, res) {
+  try {
+    const lista = await Controller.uploadPicture(req.body.id, req.file.path);
+    response.success(req, res, lista, 200);
+  } catch (error) {
+    response.success(req, res, error.message, 500);
+  }
+});
+
+//get all user images, not profile image
+router.get("/:id", async function (req, res) {
+  try {
+    const lista = await Controller.getImagesByUser(req.params.id);
+    response.success(req, res, lista, 200);
+  } catch (error) {
+    response.error(req, res, error, 500);
+  }
+});
+
+// get profile image using id
+router.get("/profile/:id", async function (req, res) {
+  try {
+    const lista = await Controller.getProfileImageByUser(req.params.id);
+    response.success(req, res, lista, 200);
+  } catch (error) {
+    response.error(req, res, error, 500);
   }
 });
 module.exports = router;
