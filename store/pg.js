@@ -62,11 +62,13 @@ function insertUsers(
   password,
   name,
   lastname,
-  birthDate
+  age,
+  description,
+  id
 ) {
   return new Promise((resolve, reject) => {
     client.query(
-      `INSERT INTO users (id_sexual_preference,id_genre,email,password,name,lastname,date_birth) VALUES  (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}','${birthDate}')`,
+      `INSERT INTO users (id_sexual_preference,id_genre,email,password,name,lastname,age,description) VALUES  (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}',${age},'${description}')`,
       (err, data) => {
         if (err) {
           return reject(err);
@@ -133,11 +135,12 @@ function updateUsers(
   password,
   name,
   lastname,
-  dateBirth
+  age,
+  description
 ) {
   return new Promise((resolve, reject) => {
     client.query(
-      `UPDATE users SET(id_sexual_preference,id_genre,email,password,name,lastname,date_birth) = (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}','${dateBirth}') WHERE id_user = ${id}`,
+      `UPDATE users SET(id_sexual_preference,id_genre,email,password,name,lastname,age,description) = (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}',${age},'${description}') WHERE id_user = ${id}`,
       (err, data) => {
         if (err) {
           return reject(err);
@@ -146,6 +149,53 @@ function updateUsers(
         }
       }
     );
+  });
+}
+//**************** HOBBIES */
+
+//INDICATE USER'S HOBBIES
+function hobbiesByUser(idUser) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `SELECT h.id_hobbie,h.description
+       FROM  hobbies as h,hobbies_users as hu
+       WHERE hu.id_hobbie = h.id_hobbie and hu.id_user = ${idUser}`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+/** call all user's hobbies */
+function selectHobbies(idUser, idHobbie) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `SELECT * from (id_user,id_hobbie) VALUES  (${idUser},${idHobbie})`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+function allHobbies() {
+  return new Promise((resolve, reject) => {
+    client.query(`SELECT * FROM hobbies`, (err, data) => {
+      if (err) {
+        return reject(err);
+      } else {
+        resolve(data);
+      }
+    });
   });
 }
 
@@ -227,6 +277,28 @@ function getProfileImageByUser(id) {
   });
 }
 
+/********************** AUTH */
+
+function localLogin(email, password) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `Select * 
+       From users
+       where email = '${email}';`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   list,
   get,
@@ -237,4 +309,8 @@ module.exports = {
   uploadPicture,
   getImagesByUser,
   getProfileImageByUser,
+  localLogin,
+  selectHobbies,
+  allHobbies,
+  hobbiesByUser,
 };

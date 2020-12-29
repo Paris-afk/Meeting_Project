@@ -1,5 +1,6 @@
 const TABLA = "users";
-
+const { nanoid } = require("nanoid");
+const bcrypt = require("bcryptjs");
 // este injectedStore es la base de datos seleccionada que recibe desde index.js
 module.exports = function (injectedStore) {
   let store = injectedStore;
@@ -19,23 +20,29 @@ module.exports = function (injectedStore) {
     return store.deleteUser(TABLA, id);
   }
 
-  function insertUsers(
+  async function insertUsers(
     sexual_preference,
     genre,
     email,
     password,
     name,
     lastname,
-    birthDate
+    age,
+    description
   ) {
+    const id = nanoid();
+    const salt = await bcrypt.genSalt(5);
+    const hash = await bcrypt.hash(password, salt);
     return store.insertUsers(
       sexual_preference,
       genre,
       email,
-      password,
+      hash,
       name,
       lastname,
-      birthDate
+      age,
+      description,
+      id
     );
   }
 
@@ -47,7 +54,8 @@ module.exports = function (injectedStore) {
     password,
     name,
     lastname,
-    dateBirth
+    age,
+    description
   ) {
     return store.updateUsers(
       id,
@@ -57,8 +65,21 @@ module.exports = function (injectedStore) {
       password,
       name,
       lastname,
-      dateBirth
+      age,
+      description
     );
+  }
+
+  /** HOBBIES */
+  function selectHobbies(idUser, idHobbie) {
+    return store.selectHobbies(idUser, idHobbie);
+  }
+
+  function allHobbies() {
+    return store.allHobbies();
+  }
+  function hobbiesByUser(idUser) {
+    return store.hobbiesByUser(idUser);
   }
 
   return {
@@ -67,5 +88,8 @@ module.exports = function (injectedStore) {
     insertUsers,
     deleteUser,
     updateUsers,
+    selectHobbies,
+    allHobbies,
+    hobbiesByUser,
   };
 };

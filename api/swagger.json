@@ -108,6 +108,46 @@
         }
       }
     },
+    "/user/hobbies": {
+      "get": {
+        "tags": ["user"],
+        "summary": "get all hobbies for select",
+        "description": "get all hobbies for select",
+        "operationId": "get all hobbies for select",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": ["user"],
+        "summary": "indicate hobbies by user",
+        "description": "send idUser and idHobbie",
+        "operationId": "indicate hobbies by user",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/hobbies/:id": {
+      "get": {
+        "tags": ["user"],
+        "summary": "get all hobbies for select id",
+        "description": "get all hobbies for select id",
+        "operationId": "get all hobbies for select id",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
     "/image/": {
       "patch": {
         "tags": ["image"],
@@ -228,7 +268,10 @@
         "genre": {
           "type": "integer"
         },
-        "birthDate": {
+        "age": {
+          "type": "integer"
+        },
+        "description": {
           "type": "string"
         }
       }
