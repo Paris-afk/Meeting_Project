@@ -1,11 +1,12 @@
 const express = require("express");
 
+const secure = require("./secure");
 const response = require("../../../network/response.js");
 const Controller = require("./index");
 const router = express.Router();
 
 router.get("/hobbies", allHobbies);
-router.get("/hobbies/:id", hobbiesByUser);
+router.get("/hobbies/:id", secure("getUserHobbies"), hobbiesByUser);
 
 //get all users
 router.get("/", async function (req, res) {
@@ -17,7 +18,7 @@ router.get("/", async function (req, res) {
   }
 });
 // get an user by using his id
-router.get("/:id", async function (req, res) {
+router.get("/:id", secure("getUser"), async function (req, res) {
   try {
     const lista = await Controller.get(req.params.id);
     response.success(req, res, lista, 200);
@@ -42,12 +43,12 @@ router.post("/", async function (req, res) {
 
     response.success(req, res, lista, 200);
   } catch (error) {
-    console.log(req.body);
+    // console.log(req.body);
     response.error(req, res, error.message, 500);
   }
 });
 //delete an user
-router.delete("/:id", async function (req, res) {
+router.delete("/:id", secure("delete"), async function (req, res) {
   try {
     const lista = await Controller.deleteUser(req.params.id);
     response.success(req, res, lista, 200);
@@ -57,7 +58,7 @@ router.delete("/:id", async function (req, res) {
   }
 });
 //modify an user
-router.put("/", async function (req, res) {
+router.put("/", secure("update"), async function (req, res) {
   try {
     const lista = await Controller.updateUsers(
       req.body.id,
@@ -81,7 +82,7 @@ router.put("/", async function (req, res) {
 /** HOBBIES */
 
 // inster user's hobbie preferences
-router.post("/hobbies", async function (req, res) {
+router.post("/hobbies", secure("postHobbies"), async function (req, res) {
   try {
     const lista = await Controller.selectHobbies(
       req.body.idUser,
@@ -111,7 +112,7 @@ async function hobbiesByUser(req, res) {
 
     response.success(req, res, lista, 200);
   } catch (error) {
-    console.log(req.body);
+    // console.log(req.body);
     response.error(req, res, error.message, 500);
   }
 }

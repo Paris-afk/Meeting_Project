@@ -12,4 +12,8 @@ module.exports = {
     port: 5432,
     ssl: true,
   },
+
+  jwt: {
+    secret: process.env.JWT_SECRET || "secreto",
+  },
 };
