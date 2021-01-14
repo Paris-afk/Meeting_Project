@@ -94,6 +94,7 @@ function deleteUser(tabla, id) {
             // console.log(data.rows[0].image);
             const myData = data.rows.map((dataItem) => {
               //console.log(dataItem.image);
+              //para borrar las imagenes del server tambien
               let path = dataItem.image;
 
               fs.unlink(path, (err) => {

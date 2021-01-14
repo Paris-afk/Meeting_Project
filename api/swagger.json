@@ -149,7 +149,7 @@
       }
     },
     "/image/": {
-      "patch": {
+      "put": {
         "tags": ["image"],
         "summary": "Post profile image or change it",
         "description": "Post profile image sending id of user and image file",
@@ -225,6 +225,56 @@
           }
         }
       }
+    },
+    "/message/send": {
+      "post": {
+        "tags": ["message"],
+        "summary": "Send message",
+        "description": "Send message",
+        "operationId": "MessageSend",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Send message to matches",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["login"],
+        "summary": "Loggin",
+        "description": "Login to get tokem",
+        "operationId": "Login",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login to gek tokem",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -283,6 +333,31 @@
           "type": "integer"
         },
         "picture": {
+          "type": "string"
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "idDestination": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
           "type": "string"
         }
       }
