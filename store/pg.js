@@ -66,6 +66,15 @@ function insertUsers(
   description,
   id
 ) {
+  datos = {
+    sexual_preference: sexual_preference,
+    genre: genre,
+    email: email,
+    name: name,
+    lastname: lastname,
+    age: age,
+    description: description,
+  };
   return new Promise((resolve, reject) => {
     client.query(
       `INSERT INTO users (id_sexual_preference,id_genre,email,password,name,lastname,age,description) VALUES  (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}',${age},'${description}')`,
@@ -73,7 +82,7 @@ function insertUsers(
         if (err) {
           return reject(err);
         } else {
-          resolve(data);
+          resolve(datos);
         }
       }
     );
