@@ -20,6 +20,10 @@ module.exports = function (injectedStore) {
     return store.deleteUser(TABLA, id);
   }
 
+  function getUserId(email, password) {
+    return store.getUserId(email, password);
+  }
+
   async function insertUsers(
     sexual_preference,
     genre,
@@ -91,5 +95,6 @@ module.exports = function (injectedStore) {
     selectHobbies,
     allHobbies,
     hobbiesByUser,
+    getUserId,
   };
 };

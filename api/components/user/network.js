@@ -30,18 +30,28 @@ router.get("/:id", secure("getUser"), async function (req, res) {
 // create an user
 router.post("/", async function (req, res) {
   try {
-    const lista = await Controller.insertUsers(
-      req.body.sexual_preference,
-      req.body.genre,
-      req.body.email,
-      req.body.password,
-      req.body.name,
-      req.body.lastname,
-      req.body.age,
-      req.body.description
-    );
+    const verificarExistencia = await Controller.getUserId(req.body.email);
+    if (verificarExistencia.rows.length > 0) {
+      throw new Error("este ya existe");
+    } else {
+      const lista = await Controller.insertUsers(
+        req.body.sexual_preference,
+        req.body.genre,
+        req.body.email,
+        req.body.password,
+        req.body.name,
+        req.body.lastname,
+        req.body.age,
+        req.body.description
+      );
 
-    response.success(req, res, lista, 200);
+      const respuesta = await Controller.getUserId(
+        req.body.email,
+        req.body.password
+      );
+
+      await response.success(req, res, respuesta.rows, 200);
+    }
   } catch (error) {
     // console.log(req.body);
     response.error(req, res, error.message, 500);

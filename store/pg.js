@@ -54,6 +54,23 @@ function get(tabla, id) {
     );
   });
 }
+
+function getUserId(email) {
+  // console.log(email, password);
+  return new Promise((resolve, reject) => {
+    client.query(
+      `SELECT * FROM users WHERE email = '${email}'`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
 //insert new users
 function insertUsers(
   sexual_preference,
@@ -323,4 +340,5 @@ module.exports = {
   selectHobbies,
   allHobbies,
   hobbiesByUser,
+  getUserId,
 };
