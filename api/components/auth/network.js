@@ -4,7 +4,7 @@ const response = require("../../../network/response.js");
 const Controller = require("./index");
 const router = express.Router();
 
-router.get("/login", async function (req, res) {
+router.post("/login", async function (req, res) {
   try {
     const lista = await Controller.localLogin(
       req.body.email,
