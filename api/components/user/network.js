@@ -3,10 +3,16 @@ const express = require("express");
 const secure = require("./secure");
 const response = require("../../../network/response.js");
 const Controller = require("./index");
+const authController = require("../auth/index");
 const router = express.Router();
-
+/**HOBBIES */
 router.get("/hobbies", allHobbies);
 router.get("/hobbies/:id", secure("getUserHobbies"), hobbiesByUser);
+/**LIKES */
+router.post("/likes/", secure("postUserLikes"), postLikesbyUser);
+router.get("/likes/:id", secure("getUsersWhoLikeMe"), getUsersWhoLikeMe);
+/*** DISLIKES */
+router.post("/dislikes/", secure("postUsersDislike"), postDislikesbyUser);
 
 //get all users
 router.get("/", async function (req, res) {
@@ -49,6 +55,15 @@ router.post("/", async function (req, res) {
         req.body.email,
         req.body.password
       );
+
+      const token = await authController.localLogin(
+        req.body.email,
+        req.body.password
+      );
+
+      await respuesta.rows.push({ token });
+
+      // const answer = Object.assign(respuesta, token);
 
       await response.success(req, res, respuesta.rows, 200);
     }
@@ -123,6 +138,47 @@ async function hobbiesByUser(req, res) {
     response.success(req, res, lista, 200);
   } catch (error) {
     // console.log(req.body);
+    response.error(req, res, error.message, 500);
+  }
+}
+
+/** LIKES */
+
+async function postLikesbyUser(req, res) {
+  try {
+    const lista = await Controller.postLikesbyUser(
+      req.body.id,
+      req.body.idReceptor
+    );
+
+    response.success(req, res, lista, 200);
+  } catch (error) {
+    response.error(req, res, error.message, 500);
+  }
+}
+
+// people who i like / personas a las que les gusto
+
+async function getUsersWhoLikeMe(req, res) {
+  try {
+    const lista = await Controller.getUsersWhoLikeMe(req.params.id);
+
+    response.success(req, res, lista, 200);
+  } catch (error) {
+    response.error(req, res, error.message, 500);
+  }
+}
+
+/** DISLIKES */
+async function postDislikesbyUser(req, res) {
+  try {
+    const lista = await Controller.postDislikesbyUser(
+      req.body.id,
+      req.body.idReceptor
+    );
+
+    response.success(req, res, lista, 200);
+  } catch (error) {
     response.error(req, res, error.message, 500);
   }
 }

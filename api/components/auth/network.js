@@ -2,6 +2,7 @@ const express = require("express");
 
 const response = require("../../../network/response.js");
 const Controller = require("./index");
+const userController = require("../user/index");
 const router = express.Router();
 
 router.post("/login", async function (req, res) {
@@ -10,7 +11,15 @@ router.post("/login", async function (req, res) {
       req.body.email,
       req.body.password
     );
-    response.success(req, res, lista, 200);
+
+    const userData = await userController.getUserId(
+      req.body.email,
+      req.body.password
+    );
+
+    let arreglo = [lista, ...userData.rows];
+
+    response.success(req, res, arreglo, 200);
   } catch (error) {
     response.error(req, res, error.message, 500);
   }

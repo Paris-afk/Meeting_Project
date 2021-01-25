@@ -326,6 +326,66 @@ function localLogin(email, password) {
   });
 }
 
+/** LIKES */
+
+function postLikesbyUser(idUser, idReceptor) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `INSERT INTO LIKES (id_of_user,id_of_user_receptor) VALUES ('${idUser}','${idReceptor}');`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
+function getUsersWhoLikeMe(idUser) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `SELECT users.id_user,users.id_sexual_preference,id_genre,name,lastname,profile_picture,age,description
+        FROM users,likes
+        WHERE   likes.id_of_user = users.id_user and likes.id_of_user_receptor = ${idUser};`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
+/**DISLIKES */
+
+function postDislikesbyUser(idUser, idReceptor) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `INSERT INTO dislikes (id_of_user,id_of_user_receptor) VALUES ('${idUser}','${idReceptor}');`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   list,
   get,
@@ -341,4 +401,7 @@ module.exports = {
   allHobbies,
   hobbiesByUser,
   getUserId,
+  postLikesbyUser,
+  getUsersWhoLikeMe,
+  postDislikesbyUser,
 };

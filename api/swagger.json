@@ -275,6 +275,70 @@
           }
         }
       }
+    },
+    "/user/likes/id": {
+      "get": {
+        "tags": ["Likes"],
+        "summary": "Likes",
+        "description": "Get likes from people who like you/ personas a las que les gustas/Token Required ",
+        "operationId": "Likes",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/likes/": {
+      "post": {
+        "tags": ["Likes"],
+        "summary": "Likes",
+        "description": "Post a like/Token Required ",
+        "operationId": "postLike",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Token Required  ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Likes"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/dislikes/": {
+      "post": {
+        "tags": ["Dislikes"],
+        "summary": "Dislikes",
+        "description": "Post a dislike/Token Required ",
+        "operationId": "postDisLike",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Token Required ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Likes"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -358,6 +422,17 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Likes": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "idReceptor": {
           "type": "string"
         }
       }

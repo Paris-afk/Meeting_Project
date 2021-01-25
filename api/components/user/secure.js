@@ -37,6 +37,21 @@ module.exports = function checkAuth(action) {
         next();
         break;
 
+      case "postUserLikes":
+        auth.check.own(req, owner_);
+        next();
+        break;
+
+      case "getUsersWhoLikeMe":
+        auth.check.own(req, owner_);
+        next();
+        break;
+
+      case "postUsersDislike":
+        auth.check.own(req, owner_);
+        next();
+        break;
+
       default:
         next();
     }

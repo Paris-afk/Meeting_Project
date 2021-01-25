@@ -86,6 +86,22 @@ module.exports = function (injectedStore) {
     return store.hobbiesByUser(idUser);
   }
 
+  /** LIKES */
+  function postLikesbyUser(idUser, idReceptor) {
+    return store.postLikesbyUser(idUser, idReceptor);
+  }
+
+  // people who like me/ personas a las que les gusto
+
+  function getUsersWhoLikeMe(id) {
+    return store.getUsersWhoLikeMe(id);
+  }
+
+  /** DISLIKES */
+  function postDislikesbyUser(idUser, idReceptor) {
+    return store.postDislikesbyUser(idUser, idReceptor);
+  }
+
   return {
     list,
     get,
@@ -96,5 +112,8 @@ module.exports = function (injectedStore) {
     allHobbies,
     hobbiesByUser,
     getUserId,
+    postLikesbyUser,
+    getUsersWhoLikeMe,
+    postDislikesbyUser,
   };
 };
