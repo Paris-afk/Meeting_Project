@@ -22,7 +22,8 @@ module.exports = function checkAuth(action) {
         break;
 
       case "getUser":
-        auth.check.own(req, owner_);
+        const _owner_ = req.params.id;
+        auth.check.own(req, _owner_);
         next();
         break;
 
