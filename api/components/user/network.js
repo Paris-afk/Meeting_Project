@@ -5,6 +5,10 @@ const response = require("../../../network/response.js");
 const Controller = require("./index");
 const authController = require("../auth/index");
 const router = express.Router();
+
+/**USERS */
+//update password
+router.patch("/password", secure("changePassword"), changePassword);
 /**HOBBIES */
 router.get("/hobbies", allHobbies);
 router.get("/hobbies/:id", secure("getUserHobbies"), hobbiesByUser);
@@ -103,6 +107,32 @@ router.put("/", secure("update"), async function (req, res) {
     response.error(req, res, error.message, 500);
   }
 });
+
+async function changePassword(req, res) {
+  try {
+    const data = await Controller.getHashedPassword(req.body.id);
+    const hashedPassword = await data.rows[0].password;
+    // console.log(hashedPassword);
+    const passwordVerification = await authController.comparePassword(
+      req.body.currentPassword,
+      hashedPassword
+    );
+    let lista = [];
+    if (passwordVerification) {
+      // console.log("si pasa la verificacion");
+      lista = await Controller.changePassword(
+        req.body.id,
+        req.body.newPassword
+      );
+    } else {
+      throw new Error("current password is not correct");
+    }
+
+    response.success(req, res, lista, 200);
+  } catch (error) {
+    response.error(req, res, error.message, 500);
+  }
+}
 
 /** HOBBIES */
 

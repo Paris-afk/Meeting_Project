@@ -16,8 +16,12 @@ router.post("/login", async function (req, res) {
       req.body.email,
       req.body.password
     );
-
-    let arreglo = [lista, ...userData.rows];
+    let arreglo = [];
+    if (lista) {
+      arreglo = [lista, ...userData.rows];
+    } else {
+      throw new Error("datos incorrectos");
+    }
 
     response.success(req, res, arreglo, 200);
   } catch (error) {

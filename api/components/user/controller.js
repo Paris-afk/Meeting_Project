@@ -74,6 +74,16 @@ module.exports = function (injectedStore) {
     );
   }
 
+  async function changePassword(idUser, password) {
+    const salt = await bcrypt.genSalt(5);
+    const hash = await bcrypt.hash(password, salt);
+    return store.changePassword(idUser, hash);
+  }
+
+  async function getHashedPassword(idUser) {
+    return store.getHashedPassword(idUser);
+  }
+
   /** HOBBIES */
   function selectHobbies(idUser, idHobbie) {
     return store.selectHobbies(idUser, idHobbie);
@@ -115,5 +125,7 @@ module.exports = function (injectedStore) {
     postLikesbyUser,
     getUsersWhoLikeMe,
     postDislikesbyUser,
+    changePassword,
+    getHashedPassword,
   };
 };

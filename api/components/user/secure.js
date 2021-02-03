@@ -28,32 +28,38 @@ module.exports = function checkAuth(action) {
         break;
 
       case "postHobbies":
-        const usuario = req.body.idUser;
+        const usuario = req.body.id;
         auth.check.own(req, usuario);
         next();
         break;
 
       case "getUserHobbies":
-        const usuario_getUserHobbies = req.body.idUser;
+        const usuario_getUserHobbies = req.body.id;
         auth.check.own(req, usuario_getUserHobbies);
         next();
         break;
 
       case "postUserLikes":
-        const usuario_postUserLikes = req.body.idUser;
+        const usuario_postUserLikes = req.body.id;
         auth.check.own(req, usuario_postUserLikes);
         next();
         break;
 
       case "getUsersWhoLikeMe":
-        const usuario_getUsersWhoLikeMe = req.body.idUser;
+        const usuario_getUsersWhoLikeMe = req.body.id;
         auth.check.own(req, usuario_getUsersWhoLikeMe);
         next();
         break;
 
       case "postUsersDislike":
-        const usuario_postUsersDislike = req.body.idUser;
+        const usuario_postUsersDislike = req.body.id;
         auth.check.own(req, usuario_postUsersDislike);
+        next();
+        break;
+
+      case "changePassword":
+        const usuario_changePassword = req.body.id;
+        auth.check.own(req, usuario_changePassword);
         next();
         break;
 

@@ -47,5 +47,6 @@ module.exports = function (injectedStore) {
 
   return {
     localLogin,
+    comparePassword,
   };
 };

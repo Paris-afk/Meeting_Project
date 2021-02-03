@@ -178,6 +178,37 @@ function updateUsers(
     );
   });
 }
+
+function changePassword(id, password) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `UPDATE users SET password = '${password}' WHERE id_user = ${id}`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+function getHashedPassword(id) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `SELECT password FROM users WHERE id_user = ${id}`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
 //**************** HOBBIES */
 
 //INDICATE USER'S HOBBIES
@@ -404,4 +435,6 @@ module.exports = {
   postLikesbyUser,
   getUsersWhoLikeMe,
   postDislikesbyUser,
+  changePassword,
+  getHashedPassword,
 };
