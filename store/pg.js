@@ -159,7 +159,7 @@ function updateUsers(
   sexual_preference,
   genre,
   email,
-  password,
+
   name,
   lastname,
   age,
@@ -167,7 +167,7 @@ function updateUsers(
 ) {
   return new Promise((resolve, reject) => {
     client.query(
-      `UPDATE users SET(id_sexual_preference,id_genre,email,password,name,lastname,age,description) = (${sexual_preference},${genre},'${email}','${password}','${name}','${lastname}',${age},'${description}') WHERE id_user = ${id}`,
+      `UPDATE users SET(id_sexual_preference,id_genre,email,name,lastname,age,description) = (${sexual_preference},${genre},'${email}','${name}','${lastname}',${age},'${description}') WHERE id_user = ${id}`,
       (err, data) => {
         if (err) {
           return reject(err);

@@ -94,7 +94,6 @@ router.put("/", secure("update"), async function (req, res) {
       req.body.sexual_preference,
       req.body.genre,
       req.body.email,
-      req.body.password,
       req.body.name,
       req.body.lastname,
       req.body.age,
