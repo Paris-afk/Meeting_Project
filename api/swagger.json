@@ -60,7 +60,7 @@
       },
       "put": {
         "tags": ["user"],
-        "summary": "Modify user data except images",
+        "summary": "Modify user data except images and passwords",
         "description": "Modify un user, is necessary send all user data except images , necessary send id, not in header, send id in body",
         "operationId": "ModifeUser",
         "produces": ["application/json"],
@@ -141,6 +141,31 @@
         "description": "get all hobbies for select id",
         "operationId": "get all hobbies for select id",
         "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/password": {
+      "patch": {
+        "tags": ["user"],
+        "summary": "change password token required",
+        "description": "change password token required",
+        "operationId": "change password",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Password"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "successful operation"
@@ -373,9 +398,6 @@
         "email": {
           "type": "string"
         },
-        "password": {
-          "type": "string"
-        },
         "sexual_preference": {
           "type": "integer"
         },
@@ -433,6 +455,20 @@
           "type": "string"
         },
         "idReceptor": {
+          "type": "string"
+        }
+      }
+    },
+    "Password": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        },
+        "currentPassword": {
           "type": "string"
         }
       }
