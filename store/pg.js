@@ -299,6 +299,26 @@ function uploadPicture(idUser, image, date) {
   });
 }
 
+function uploadMultiplePictures(idUser, files, date, length) {
+  return new Promise((resolve, reject) => {
+    for (let i = 0; i < length; i++) {
+      client.query(
+        `
+      INSERT INTO images (image, upload_date,id_user)
+        VALUES('${files[i].path}', '${date}',${idUser});
+      `,
+        (err, data) => {
+          if (err) {
+            return reject(err);
+          } else {
+            resolve(data);
+          }
+        }
+      );
+    }
+  });
+}
+
 function getImagesByUser(id) {
   return new Promise((resolve, reject) => {
     client.query(
@@ -437,4 +457,5 @@ module.exports = {
   postDislikesbyUser,
   changePassword,
   getHashedPassword,
+  uploadMultiplePictures,
 };

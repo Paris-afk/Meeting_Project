@@ -16,6 +16,10 @@ module.exports = function (injectedStore) {
     return store.uploadPicture(id, image, date);
   }
 
+  function uploadMultiplePictures(id, files, length) {
+    return store.uploadMultiplePictures(id, files, date, length);
+  }
+
   function getImagesByUser(idUser) {
     return store.getImagesByUser(idUser);
   }
@@ -29,5 +33,6 @@ module.exports = function (injectedStore) {
     uploadPicture,
     getImagesByUser,
     getProfileImageByUser,
+    uploadMultiplePictures,
   };
 };

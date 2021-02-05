@@ -174,7 +174,7 @@
       }
     },
     "/image/": {
-      "put": {
+      "patch": {
         "tags": ["image"],
         "summary": "Post profile image or change it",
         "description": "Post profile image sending id of user and image file",
@@ -204,6 +204,31 @@
         "summary": "Post Wall images, not profil image",
         "description": "Post  images in wall sending id of user and image file",
         "operationId": "PostUsersImages",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/image/wall/multiple": {
+      "post": {
+        "tags": ["image"],
+        "summary": "Post Wall more than 1  image at same time, limite 6, not profil image",
+        "description": "Post  images in wall sending id of user and image file",
+        "operationId": "multipleImages",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -387,7 +412,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -416,7 +441,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "string"
         },
         "picture": {
           "type": "string"

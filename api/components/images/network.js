@@ -31,7 +31,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 2,
+    fileSize: 1024 * 1024 * 5,
   },
   fileFilter: fileFilter,
 });
@@ -49,7 +49,7 @@ router.patch("/", upload.single("picture"), async function (req, res) {
     );
     response.success(req, res, lista, 200);
   } catch (error) {
-    response.success(req, res, error.message, 500);
+    response.error(req, res, error.message, 500);
   }
 });
 
@@ -59,9 +59,27 @@ router.post("/wall", upload.single("picture"), async function (req, res) {
     const lista = await Controller.uploadPicture(req.body.id, req.file.path);
     response.success(req, res, lista, 200);
   } catch (error) {
-    response.success(req, res, error.message, 500);
+    response.error(req, res, error.message, 500);
   }
 });
+
+router.post(
+  "/wall/multiple",
+  upload.array("picture", 7),
+  async function (req, res) {
+    try {
+      const lista = await Controller.uploadMultiplePictures(
+        req.body.id,
+        req.files,
+        req.files.length
+      );
+      // console.log(req.files.length);
+      response.success(req, res, lista, 200);
+    } catch (error) {
+      response.error(req, res, error.message, 500);
+    }
+  }
+);
 
 //get all user images, not profile image
 router.get("/:id", async function (req, res) {
