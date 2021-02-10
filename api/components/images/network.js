@@ -4,6 +4,7 @@ const response = require("../../../network/response.js");
 const Controller = require("./index");
 const router = express.Router();
 const multer = require("multer");
+const fs = require("fs");
 let reqPath = path.join(__dirname, "../../../store/uploads");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -23,7 +24,7 @@ const fileFilter = (req, file, cb) => {
   ) {
     cb(null, true);
   } else {
-    cb(new Error("date type not valide"), false);
+    cb(new Error("data type not valide"), false);
   }
 };
 
@@ -42,11 +43,18 @@ router.patch("/", upload.single("picture"), async function (req, res) {
   // console.log(req.file);
   // console.log(__dirname);
   // console.log(reqPath);
+  console.log(req.file);
   try {
     const lista = await Controller.uploadProfilePicture(
       req.body.id,
       req.file.path
     );
+
+    // let filename = req.file.path;
+    // var base64str = Controller.base64_encode(filename);
+    // // console.log(base64str);
+    // lista.rows[1] = base64str;
+
     response.success(req, res, lista, 200);
   } catch (error) {
     response.error(req, res, error.message, 500);
@@ -95,6 +103,15 @@ router.get("/:id", async function (req, res) {
 router.get("/profile/:id", async function (req, res) {
   try {
     const lista = await Controller.getProfileImageByUser(req.params.id);
+    // console.log(lista.rows[0].profile_picture);
+    let filename = lista.rows[0].profile_picture;
+    var base64str = Controller.base64_encode(filename);
+    lista.rows[1] = base64str;
+    // console.log(base64str);
+
+    // let filename = lista.rows[0].profile_picture;
+    // let base64str = Controller.base64_encode(filename);
+    // console.log(base64str);
     response.success(req, res, lista, 200);
   } catch (error) {
     response.error(req, res, error, 500);

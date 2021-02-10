@@ -1,6 +1,8 @@
 const TABLA = "users";
 let date = new Date();
 date = date.toDateString();
+var fs = require("fs");
+
 // este injectedStore es la base de datos seleccionada que recibe desde index.js
 module.exports = function (injectedStore) {
   let store = injectedStore;
@@ -28,11 +30,22 @@ module.exports = function (injectedStore) {
     return store.getProfileImageByUser(idUser);
   }
 
+  function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // console.log(bitmap);
+    // convert binary data to base64 encoded string
+    // return new Buffer(bitmap).toString("base64");
+    // return bitmap;
+    return bitmap.toString("base64");
+  }
+
   return {
     uploadProfilePicture,
     uploadPicture,
     getImagesByUser,
     getProfileImageByUser,
     uploadMultiplePictures,
+    base64_encode,
   };
 };
