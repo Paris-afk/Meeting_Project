@@ -13,7 +13,7 @@ module.exports = function (injectedStore) {
         return reject("los datos son incorrectos");
       } else {
         try {
-          socket.io.emit("message", message);
+          socket.io.emit("paris", message);
           console.log(message);
           resolve(message);
         } catch (error) {
