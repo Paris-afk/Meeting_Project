@@ -40,14 +40,14 @@ const upload = multer({
 //upload or change profile image
 router.patch("/", upload.single("picture"), async function (req, res) {
   // console.log(req.body.id);
-  // console.log(req.file);
+  //console.log(req.file);
   // console.log(__dirname);
   // console.log(reqPath);
-  console.log(req.file);
+  //console.log(req.file.filename);
   try {
     const lista = await Controller.uploadProfilePicture(
       req.body.id,
-      req.file.path
+      req.file.filename
     );
 
     // let filename = req.file.path;
@@ -64,7 +64,10 @@ router.patch("/", upload.single("picture"), async function (req, res) {
 //upload image but not profile image
 router.post("/wall", upload.single("picture"), async function (req, res) {
   try {
-    const lista = await Controller.uploadPicture(req.body.id, req.file.path);
+    const lista = await Controller.uploadPicture(
+      req.body.id,
+      req.file.filename
+    );
     response.success(req, res, lista, 200);
   } catch (error) {
     response.error(req, res, error.message, 500);
@@ -89,7 +92,6 @@ router.post(
   }
 );
 
-//get all user images, not profile image
 router.get("/:id", async function (req, res) {
   try {
     const lista = await Controller.getImagesByUser(req.params.id);
@@ -100,21 +102,15 @@ router.get("/:id", async function (req, res) {
 });
 
 // get profile image using id
-router.get("/profile/:id", async function (req, res) {
-  try {
-    const lista = await Controller.getProfileImageByUser(req.params.id);
-    // console.log(lista.rows[0].profile_picture);
-    let filename = lista.rows[0].profile_picture;
-    var base64str = Controller.base64_encode(filename);
-    lista.rows[1] = base64str;
-    // console.log(base64str);
-
-    // let filename = lista.rows[0].profile_picture;
-    // let base64str = Controller.base64_encode(filename);
-    // console.log(base64str);
-    response.success(req, res, lista, 200);
-  } catch (error) {
-    response.error(req, res, error, 500);
-  }
+router.get("/profile/:path", async function (req, res) {
+  // res.sendFile(path.resolve("./store/uploads/" + req.params.path));
+  res.sendFile(path.resolve("./store/uploads/" + req.params.path), (err) => {
+    if (err) {
+      res.status(404).send("Sorry, cant find that");
+      // new Error("archivo no encontrado");
+      // res.sendFile(path.resolve("./store/uploads/error404.png"));
+      // console.log(err.message);
+    }
+  });
 });
 module.exports = router;

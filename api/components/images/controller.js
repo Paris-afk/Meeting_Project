@@ -40,6 +40,10 @@ module.exports = function (injectedStore) {
     return bitmap.toString("base64");
   }
 
+  function getFile(res, name) {
+    return res.sendFile(path.resolve("./store/uploads/" + name));
+  }
+
   return {
     uploadProfilePicture,
     uploadPicture,
@@ -47,5 +51,6 @@ module.exports = function (injectedStore) {
     getProfileImageByUser,
     uploadMultiplePictures,
     base64_encode,
+    getFile,
   };
 };
