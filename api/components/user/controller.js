@@ -83,8 +83,8 @@ module.exports = function (injectedStore) {
   }
 
   /** HOBBIES */
-  function selectHobbies(idUser, idHobbie) {
-    return store.selectHobbies(idUser, idHobbie);
+  function selectHobbies(idUser, hobbies) {
+    return store.selectHobbies(idUser, hobbies);
   }
 
   function allHobbies() {

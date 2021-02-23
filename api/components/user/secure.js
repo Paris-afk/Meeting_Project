@@ -28,7 +28,7 @@ module.exports = function checkAuth(action) {
         break;
 
       case "postHobbies":
-        const usuario = req.body.id;
+        const usuario = req.body.idUser;
         auth.check.own(req, usuario);
         next();
         break;
@@ -46,7 +46,7 @@ module.exports = function checkAuth(action) {
         break;
 
       case "getUsersWhoLikeMe":
-        const usuario_getUsersWhoLikeMe = req.body.id;
+        const usuario_getUsersWhoLikeMe = req.params.id;
         auth.check.own(req, usuario_getUsersWhoLikeMe);
         next();
         break;

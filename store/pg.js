@@ -230,18 +230,20 @@ function hobbiesByUser(idUser) {
 }
 
 /** call all user's hobbies */
-function selectHobbies(idUser, idHobbie) {
+function selectHobbies(idUser, hobbies) {
   return new Promise((resolve, reject) => {
-    client.query(
-      `SELECT * from (id_user,id_hobbie) VALUES  (${idUser},${idHobbie})`,
-      (err, data) => {
-        if (err) {
-          return reject(err);
-        } else {
-          resolve(data);
+    for (let hobbie = 0; hobbie < hobbies.length; hobbie++) {
+      client.query(
+        `INSERT INTO hobbies_users (id_user,id_hobbie) VALUES  (${idUser},${hobbies[hobbie]})`,
+        (err, data) => {
+          if (err) {
+            return reject(err);
+          } else {
+            resolve(data);
+          }
         }
-      }
-    );
+      );
+    }
   });
 }
 

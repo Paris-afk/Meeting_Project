@@ -127,6 +127,17 @@
         "description": "send idUser and idHobbie",
         "operationId": "indicate hobbies by user",
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "indicate hobbies by user send hobbies in array type int",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Hobbies"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "successful operation"
@@ -481,6 +492,21 @@
         },
         "idReceptor": {
           "type": "string"
+        }
+      }
+    },
+    "Hobbies": {
+      "type": "object",
+      "properties": {
+        "idUser": {
+          "type": "string"
+        },
+        "hobbies": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "example": 1
+          }
         }
       }
     },

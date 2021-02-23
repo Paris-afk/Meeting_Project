@@ -136,16 +136,19 @@ async function changePassword(req, res) {
 /** HOBBIES */
 
 // inster user's hobbie preferences
+//secure("postHobbies"),
 router.post("/hobbies", secure("postHobbies"), async function (req, res) {
+  // console.log(req.body);
+  // console.log(req.body.hobbies.length);
+  // console.log(req.body.hobbies[1]);
   try {
     const lista = await Controller.selectHobbies(
       req.body.idUser,
-      req.body.idHobbie
+      req.body.hobbies
     );
-
     response.success(req, res, lista, 200);
   } catch (error) {
-    console.log(req.body);
+    // console.log(req.body);
     response.error(req, res, error.message, 500);
   }
 });
