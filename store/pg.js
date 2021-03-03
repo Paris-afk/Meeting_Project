@@ -38,6 +38,53 @@ function list(tabla) {
   });
 }
 
+/* Algorithm for calling users in order */
+
+function listFirstStep(id, userType, idSexualPreference) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `SELECT users.id_user,sp.name as sexual_preference, g.name as gender,users.name,users.lastname,users.profile_picture, users.age, users.description
+        FROM users,likes,sexual_preferences as sp, genres as g
+        WHERE sp.id_sexual_preference = users.id_sexual_preference and g.id_genre = users.id_genre and  likes.id_of_user = users.id_user and likes.id_of_user_receptor = ${id} and users.id_user not in (SELECT users.id_user
+        FROM users,dislikes
+        WHERE   dislikes.id_of_user = ${id} and dislikes.id_of_user_receptor = users.id_user) and users.id_user not in (SELECT users.id_user
+        FROM users,likes
+        WHERE   likes.id_of_user = ${id} and likes.id_of_user_receptor = users.id_user) and users.id_genre = ${idSexualPreference}
+		order by users.type = '${userType}' LIMIT 30`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+function listSecondStep(id, userType, idSexualPreference) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `Select users.id_user,sp.name as sexual_preference, g.name as gender,users.name,users.lastname,users.profile_picture, users.age, users.description
+        From users,sexual_preferences as sp, genres as g WHERE sp.id_sexual_preference = users.id_sexual_preference and g.id_genre = users.id_genre and users.id_user not in (SELECT users.id_user
+        FROM users,dislikes
+        WHERE   dislikes.id_of_user = ${id} and dislikes.id_of_user_receptor = users.id_user) and users.id_user not in (SELECT users.id_user
+        FROM users,likes
+        WHERE   likes.id_of_user = ${id} and likes.id_of_user_receptor = users.id_user) and users.id_user not in (SELECT users.id_user
+        FROM users,likes
+        WHERE   likes.id_of_user = users.id_user and likes.id_of_user_receptor = ${id}) and users.id_genre = ${idSexualPreference}
+		order by users.type ='${userType}' LIMIT 30`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
 //find an user by id
 function get(tabla, id) {
   return new Promise((resolve, reject) => {
@@ -222,7 +269,7 @@ function hobbiesByUser(idUser) {
         if (err) {
           return reject(err);
         } else {
-          resolve(data);
+          resolve(data.rows);
         }
       }
     );
@@ -460,4 +507,6 @@ module.exports = {
   changePassword,
   getHashedPassword,
   uploadMultiplePictures,
+  listSecondStep,
+  listFirstStep,
 };

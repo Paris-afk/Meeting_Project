@@ -7,9 +7,39 @@ module.exports = function (injectedStore) {
   if (!store) {
     const store = require("../../../store/dummy");
   }
+  //function to call in order first, people who gave me like then people with my pref and finally the rest of them
+  // all this is validaded for my likes, dislikes
 
-  function list() {
-    return store.list(TABLA);
+  async function list(id, userType, idSexualPreference) {
+    const first_list = await store.listFirstStep(
+      id,
+      userType,
+      idSexualPreference
+    );
+
+    const second_list = await store.listSecondStep(
+      id,
+      userType,
+      idSexualPreference
+    );
+
+    // const final = await merge(first_list, second_list);
+    const final = [...first_list.rows, ...second_list.rows];
+
+    async function getFinalValue(users) {
+      let myFinalArray = [];
+      for (let index = 0; index < users.length; index++) {
+        let resultado = await store.hobbiesByUser(users[index].id_user);
+        resultado != [] || undefined || null
+          ? myFinalArray.push({ ...users[index], hobbies: resultado })
+          : myFinalArray.push({ ...users[index], hobbies: "nada" });
+      }
+      return myFinalArray;
+    }
+
+    const valorFinal = await getFinalValue(final);
+
+    return valorFinal;
   }
 
   function get(id) {

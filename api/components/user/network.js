@@ -11,7 +11,7 @@ const router = express.Router();
 router.patch("/password", secure("changePassword"), changePassword);
 /**HOBBIES */
 router.get("/hobbies", allHobbies);
-router.get("/hobbies/:id", secure("getUserHobbies"), hobbiesByUser);
+router.get("/hobbies/:id", hobbiesByUser);
 /**LIKES */
 router.post("/likes/", secure("postUserLikes"), postLikesbyUser);
 router.get("/likes/:id", secure("getUsersWhoLikeMe"), getUsersWhoLikeMe);
@@ -19,9 +19,13 @@ router.get("/likes/:id", secure("getUsersWhoLikeMe"), getUsersWhoLikeMe);
 router.post("/dislikes/", secure("postUsersDislike"), postDislikesbyUser);
 
 //get all users
-router.get("/", async function (req, res) {
+router.patch("/", async function (req, res) {
   try {
-    const lista = await Controller.list();
+    const lista = await Controller.list(
+      req.body.id,
+      req.body.userType,
+      req.body.idSexualPreference
+    );
     response.success(req, res, lista, 200);
   } catch (error) {
     response.error(req, res, error.message, 500);

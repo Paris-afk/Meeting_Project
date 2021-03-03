@@ -46,12 +46,23 @@
           }
         }
       },
-      "get": {
+      "patch": {
         "tags": ["user"],
         "summary": "Get all users",
         "description": "Create an user without profile image",
         "operationId": "getAllUsers",
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Get All users ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetAll"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "successful operation"
@@ -520,6 +531,20 @@
           "type": "string"
         },
         "currentPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "GetAll": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string"
+        },
+        "idSexualPreference": {
           "type": "string"
         }
       }
