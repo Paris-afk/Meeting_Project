@@ -411,6 +411,20 @@
           }
         }
       }
+    },
+    "/matches/:id/": {
+      "get": {
+        "tags": ["Matches"],
+        "summary": "Get matches of user",
+        "description": "Get all users who got matched",
+        "operationId": "matches",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {

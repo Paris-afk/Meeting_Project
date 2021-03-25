@@ -7,6 +7,7 @@ const auth = require("./components/auth/network");
 const imageUser = require("./components/images/network");
 const message = require("./components/message/network");
 const questions = require("./components/questions/network");
+const matches = require("./components/matches/network");
 const errors = require("../network/errors");
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/auth", auth);
 app.use("/api/image", imageUser);
 app.use("/api/questions", questions);
 app.use("/api/message", message);
+app.use("/api/matches", matches);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

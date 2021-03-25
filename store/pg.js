@@ -486,6 +486,27 @@ function postDislikesbyUser(idUser, idReceptor) {
   });
 }
 
+/** MATCHES */
+function getUserMatches(idUser) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `Select * 
+       FROM matches as m, users as u 
+       WHERE m.id_of_user = ${idUser} and id_of_match = u.id_user`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   list,
   get,
@@ -509,4 +530,5 @@ module.exports = {
   uploadMultiplePictures,
   listSecondStep,
   listFirstStep,
+  getUserMatches,
 };
