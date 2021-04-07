@@ -9,7 +9,17 @@ module.exports = function (injectedStore) {
     return store.getUserMatches(idUser);
   }
 
+  async function verifyMatch(idUser, actualSession) {
+    return store.verifyMatch(idUser, actualSession);
+  }
+
+  async function postUserMatches(idUser, actualSession) {
+    return store.postUserMatches(idUser, actualSession);
+  }
+
   return {
     getUserMatches,
+    postUserMatches,
+    verifyMatch,
   };
 };

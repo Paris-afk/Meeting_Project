@@ -507,6 +507,44 @@ function getUserMatches(idUser) {
   });
 }
 
+function verifyMatch(idUser, actualSession) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `select *
+        from likes 
+        where id_of_user =  ${idUser} and id_of_user_receptor = ${actualSession} ;`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
+function postUserMatches(idUser, actualSession) {
+  return new Promise((resolve, reject) => {
+    client.query(
+      `insert into matches (id_of_user,id_of_match) values (${actualSession},${idUser});`,
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        } else {
+          // console.log(email, password);
+          resolve(data);
+
+          // console.log(id);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   list,
   get,
@@ -531,4 +569,6 @@ module.exports = {
   listSecondStep,
   listFirstStep,
   getUserMatches,
+  verifyMatch,
+  postUserMatches,
 };

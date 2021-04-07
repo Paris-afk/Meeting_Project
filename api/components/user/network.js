@@ -4,6 +4,7 @@ const secure = require("./secure");
 const response = require("../../../network/response.js");
 const Controller = require("./index");
 const authController = require("../auth/index");
+const matchController = require("../matches/index");
 const router = express.Router();
 
 /**USERS */
@@ -13,7 +14,7 @@ router.patch("/password", secure("changePassword"), changePassword);
 router.get("/hobbies", allHobbies);
 router.get("/hobbies/:id", hobbiesByUser);
 /**LIKES */
-router.post("/likes/", secure("postUserLikes"), postLikesbyUser);
+router.post("/likes/", postLikesbyUser);
 router.get("/likes/:id", secure("getUsersWhoLikeMe"), getUsersWhoLikeMe);
 /*** DISLIKES */
 router.post("/dislikes/", secure("postUsersDislike"), postDislikesbyUser);
@@ -182,10 +183,22 @@ async function hobbiesByUser(req, res) {
 
 async function postLikesbyUser(req, res) {
   try {
+    const verifyMatch = await matchController.verifyMatch(
+      req.body.id,
+      req.body.idReceptor
+    );
+
     const lista = await Controller.postLikesbyUser(
       req.body.id,
       req.body.idReceptor
     );
+
+    if (verifyMatch.rows.length > 0) {
+      // console.log(verifyMatch.rows);
+      // console.log("no esta vacio");
+      await matchController.postUserMatches(req.body.idReceptor, req.body.id);
+      lista = "match";
+    }
 
     response.success(req, res, lista, 200);
   } catch (error) {
