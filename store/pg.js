@@ -491,8 +491,8 @@ function getUserMatches(idUser) {
   return new Promise((resolve, reject) => {
     client.query(
       `Select * 
-       FROM matches as m, users as u 
-       WHERE m.id_of_user = ${idUser} and id_of_match = u.id_user`,
+       FROM matches as m
+       WHERE m.id_of_user = ${idUser} or m.id_of_match = ${idUser} ;`,
       (err, data) => {
         if (err) {
           return reject(err);

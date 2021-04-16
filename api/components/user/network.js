@@ -183,6 +183,7 @@ async function hobbiesByUser(req, res) {
 
 async function postLikesbyUser(req, res) {
   try {
+    //verificar si la otra persona ya te habia dado like antes
     const verifyMatch = await matchController.verifyMatch(
       req.body.id,
       req.body.idReceptor
