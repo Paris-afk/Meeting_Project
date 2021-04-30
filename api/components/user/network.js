@@ -33,7 +33,7 @@ router.patch("/", async function (req, res) {
   }
 });
 // get an user by using his id
-router.get("/:id", secure("getUser"), async function (req, res) {
+router.get("/:id", async function (req, res) {
   try {
     const lista = await Controller.get(req.params.id);
     response.success(req, res, lista, 200);
