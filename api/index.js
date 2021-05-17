@@ -9,6 +9,7 @@ const message = require("./components/message/network");
 const questions = require("./components/questions/network");
 const matches = require("./components/matches/network");
 const errors = require("../network/errors");
+let port = process.env.PORT || 3000;
 
 const app = express();
 const server = require("http").Server(app);
@@ -75,6 +76,6 @@ app.use(errors);
 // app.listen(config.api.port, () => {
 //   console.log("Api escuchando en el puerto", config.api.port);
 // });
-server.listen(config.api.port, () => {
+server.listen(port, () => {
   console.log("Api escuchando en el puerto", config.api.port);
 });
