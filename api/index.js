@@ -31,7 +31,6 @@ io.set("origins", "*:*");
 
 const swaggerDoc = require("./swagger.json");
 //Routes
-app.use("/", user);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use("/api/user", user);
 app.use("/api/auth", auth);
@@ -73,4 +72,6 @@ app.use(errors);
 // app.listen(config.api.port, () => {
 //   console.log("Api escuchando en el puerto", config.api.port);
 // });
-server.listen(config.api.port || 3000);
+server.listen(config.api.port, () => {
+  console.log("Api escuchando en el puerto", config.api.port);
+});
