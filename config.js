@@ -1,6 +1,7 @@
 module.exports = {
   api: {
     port: process.env.API_PORT || 3000,
+    server_host = process.env.YOUR_HOST || '0.0.0.0'
   },
 
   pg: {

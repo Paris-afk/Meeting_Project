@@ -72,6 +72,6 @@ app.use(errors);
 // app.listen(config.api.port, () => {
 //   console.log("Api escuchando en el puerto", config.api.port);
 // });
-server.listen(config.api.port, () => {
+server.listen(config.api.port, config.api.server_host, () => {
   console.log("Api escuchando en el puerto", config.api.port);
 });
