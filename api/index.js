@@ -31,6 +31,9 @@ io.set("origins", "*:*");
 
 const swaggerDoc = require("./swagger.json");
 //Routes
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use("/api/user", user);
 app.use("/api/auth", auth);
