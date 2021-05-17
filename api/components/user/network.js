@@ -6,7 +6,7 @@ const Controller = require("./index");
 const authController = require("../auth/index");
 const matchController = require("../matches/index");
 const router = express.Router();
-
+router.get("/", "hola mundo");
 /**USERS */
 //update password
 router.patch("/password", secure("changePassword"), changePassword);
